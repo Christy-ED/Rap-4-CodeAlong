@@ -79,32 +79,33 @@ function App() {
   }, []);
 
   return (
-    <div className={styles.App}>
-      <header className={styles.Appheader}>
-        {card.map((data) => (
-          <div
-            key={data.id}
-            style={{
-              height: "100vh",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+    <div className={styles.body}>
+      {card.map((data) => (
+        <div
+          key={data.id}
+          style={{
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <div style={{ textAlign: "center", marginBottom: "10px", fontWeight: "bold" }}>
             {data.name}
-            {data.imageUrl ? (
-              <img
-                src={data.imageUrl}
-                alt={data.name}
-                style={{ width: "150px", height: "200px" }}
-              />
-            ) : (
-              <p>No image available</p>
-            )}
           </div>
-        ))}
-        <div id="seen">SEE ME</div>
-      </header>
+          {data.imageUrl ? (
+            <img
+              src={data.imageUrl}
+              alt={data.name}
+              style={{ width: "150px", height: "200px" }}
+            />
+          ) : (
+            <p>No image available</p>
+          )}
+        </div>
+      ))}
+      <div id="seen">SEE ME</div>
     </div>
   );
 }
