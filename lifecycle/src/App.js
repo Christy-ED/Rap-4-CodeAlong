@@ -24,8 +24,8 @@
 // export default App;
 
 import styles from "./App.module.css";
-import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 function App() {
   const [card, setCard] = useState([]); // setCard function manage the data loading in chunks rather than loading all the data at once.
@@ -36,12 +36,14 @@ function App() {
   const getYuGiOhCard = async () => {
     try {
       const response = await axios.get(
-        `https://db.ygoprodeck.com/api/v7/cardinfo.php?num=${countRef.current}&offset=${countRef.current}`
+        `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=Baby Dragon|Time Wizard|Tornado Dragon|Red-EyesBlack Dragon|Decode Talker|Blue-Eyes White Dragon|Summoned Sku`
       );
       const newCard = response.data.data.map((card) => ({
         id: card.id,
         name: card.name,
+        imageUrl: card.card_images[0].image_url,
       }));
+      console.log(response.data.data);
       //setCard uses the previous state to accumulate the list of people as more cards are fetched.
       setCard((prevCard) => [...prevCard, ...newCard]);
       countRef.current += 1;
@@ -67,13 +69,13 @@ function App() {
         root: null,
         rootMargin: "0px",
         threshold: 1.0,
-      });
+      }
+    );
 
-  observer.current.observe(document.getElementById("seen"));
-  return () => {
-    observer.current.disconnect();
-  };
-
+    observer.current.observe(document.getElementById("seen"));
+    return () => {
+      observer.current.disconnect();
+    };
   }, []);
 
   return (
@@ -90,6 +92,15 @@ function App() {
             }}
           >
             {data.name}
+            {data.imageUrl ? (
+              <img
+                src={data.imageUrl}
+                alt={data.name}
+                style={{ width: "150px", height: "200px" }}
+              />
+            ) : (
+              <p>No image available</p>
+            )}
           </div>
         ))}
         <div id="seen">SEE ME</div>
